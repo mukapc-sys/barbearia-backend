@@ -1,0 +1,1164 @@
+{
+  "colunas": {
+    "agenda_appbarber": {
+      "id": "uuid",
+      "appbarber_id": "text",
+      "unidade_id": "uuid",
+      "tipo": "text",
+      "status": "text",
+      "cod_status": "int",
+      "cliente_nome": "text",
+      "cliente_celular": "text",
+      "cliente_codigo": "text",
+      "cliente_id": "uuid",
+      "profissional_appbarber_id": "text",
+      "colaborador_id": "uuid",
+      "servico_texto": "text",
+      "servico_appbarber_id": "text",
+      "servico_id": "uuid",
+      "inicio": "timestamp",
+      "fim": "timestamp",
+      "valor": "float",
+      "observacao": "text",
+      "confirmado": "boolean",
+      "encaixe": "boolean",
+      "cor": "text",
+      "comanda_codigo": "text",
+      "pendente_vinculo": "boolean",
+      "sincronizado_em": "timestamp",
+      "criado_em": "timestamp",
+      "finalizado": "boolean",
+      "finalizado_em": "timestamp",
+      "finalizado_onde": "text",
+      "agendamento_id": "uuid",
+      "comanda_id": "uuid",
+      "editado_local": "boolean"
+    },
+    "agenda_appbarber_produtos": {
+      "id": "uuid",
+      "appbarber_item_id": "text",
+      "comanda_codigo": "text",
+      "unidade_id": "uuid",
+      "colaborador_id": "uuid",
+      "cliente_codigo": "text",
+      "descricao": "text",
+      "quantidade": "float",
+      "valor_unit": "float",
+      "comissao": "float",
+      "data": "timestamp",
+      "criado_em": "timestamp"
+    },
+    "agendamentos": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "colaborador_id": "uuid",
+      "cliente_id": "uuid",
+      "servico_id": "uuid",
+      "data_hora_ini": "timestamp",
+      "data_hora_fim": "timestamp",
+      "status": "enum",
+      "valor": "float",
+      "observacao": "text",
+      "canal_origem": "text",
+      "criado_por": "uuid",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp",
+      "comanda_id": "uuid",
+      "nome_acompanhante": "text",
+      "pago": "boolean",
+      "encaixe": "boolean",
+      "cliente_nome": "text",
+      "bloqueio_grupo": "uuid",
+      "transferencia_resolvida": "boolean"
+    },
+    "appbarber_depara_profissional": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "appbarber_id": "text",
+      "appbarber_nome": "text",
+      "colaborador_id": "uuid",
+      "criado_em": "timestamp"
+    },
+    "appbarber_depara_servico": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "appbarber_id": "text",
+      "appbarber_nome": "text",
+      "servico_id": "uuid",
+      "criado_em": "timestamp"
+    },
+    "appbarber_sessoes": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "cookie": "text",
+      "expira_em": "timestamp",
+      "status": "text",
+      "atualizado_em": "timestamp"
+    },
+    "assinaturas": {
+      "id": "uuid",
+      "cliente_id": "uuid",
+      "plano_id": "uuid",
+      "status": "enum",
+      "data_inicio": "date",
+      "data_renovacao": "date",
+      "forma_pgto": "enum",
+      "cartao_token": "text",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp",
+      "credito_mensal": "float",
+      "credito_saldo": "float",
+      "credito_reset_dia": "int",
+      "vendedor_id": "uuid",
+      "comissao_vendedor_pct": "float",
+      "vendedor_id_2": "uuid",
+      "valor_split_1": "float"
+    },
+    "balanco_itens": {
+      "id": "uuid",
+      "balanco_id": "uuid",
+      "produto_id": "uuid",
+      "produto_nome": "text",
+      "saldo_sistema": "float",
+      "contagem_fisica": "float",
+      "diferenca": "float",
+      "status": "text",
+      "resolvido_por": "uuid",
+      "resolvido_em": "timestamp"
+    },
+    "balancos": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "status": "text",
+      "criado_por": "uuid",
+      "criado_por_nome": "text",
+      "criado_em": "timestamp",
+      "concluido_em": "timestamp",
+      "observacao": "text"
+    },
+    "bloqueios": {
+      "id": "uuid",
+      "colaborador_id": "uuid",
+      "unidade_id": "uuid",
+      "data_ini": "timestamp",
+      "data_fim": "timestamp",
+      "dia_inteiro": "boolean",
+      "recorrencia": "enum",
+      "motivo": "text",
+      "criado_por": "uuid",
+      "criado_em": "timestamp"
+    },
+    "bloqueios_recorrentes": {
+      "id": "uuid",
+      "colaborador_id": "uuid",
+      "unidade_id": "uuid",
+      "dias_semana": "json",
+      "hora_ini": "text",
+      "hora_fim": "text",
+      "data_ini": "date",
+      "data_fim": "date",
+      "motivo": "text",
+      "criado_por": "uuid",
+      "criado_em": "timestamp"
+    },
+    "caixa_retiradas": {
+      "id": "uuid",
+      "sessao_id": "uuid",
+      "unidade_id": "uuid",
+      "valor": "float",
+      "motivo": "text",
+      "responsavel_id": "uuid",
+      "responsavel_nome": "text",
+      "autorizado_por": "uuid",
+      "autorizado_por_nome": "text",
+      "criado_em": "timestamp"
+    },
+    "caixa_sessoes": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "status": "text",
+      "saldo_inicial": "float",
+      "aberto_em": "timestamp",
+      "aberto_por": "uuid",
+      "aberto_por_nome": "text",
+      "fechado_em": "timestamp",
+      "fechado_por": "uuid",
+      "fechado_por_nome": "text",
+      "dinheiro_conferido": "float",
+      "faturamento": "float",
+      "observacao": "text",
+      "criado_em": "timestamp"
+    },
+    "carteira_pontos": {
+      "id": "uuid",
+      "cliente_id": "uuid",
+      "saldo": "int",
+      "total_acumulado": "int",
+      "atualizado_em": "timestamp",
+      "expira_em": "timestamp"
+    },
+    "categorias_produto": {
+      "id": "uuid",
+      "nome": "text",
+      "paga_comissao": "boolean"
+    },
+    "cliente_dedup_map": {
+      "dup_id": "uuid",
+      "manter_id": "uuid",
+      "tel": "text",
+      "nome_norm": "text"
+    },
+    "cliente_servicos_pref": {
+      "cliente_id": "uuid",
+      "servico_id": "uuid"
+    },
+    "clientes": {
+      "id": "uuid",
+      "user_id": "uuid",
+      "nome": "text",
+      "cpf": "text",
+      "email": "text",
+      "whatsapp": "text",
+      "data_nasc": "date",
+      "colaborador_pref": "uuid",
+      "unidade_pref": "uuid",
+      "observacoes": "text",
+      "ativo": "boolean",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp",
+      "convenio_id": "uuid",
+      "origem": "text",
+      "senha_hash": "text",
+      "reset_codigo": "text",
+      "reset_expira": "timestamp",
+      "appbarber_codigo": "text",
+      "emails_extras": "json",
+      "arquivado_em": "timestamp",
+      "arquivado_motivo": "text",
+      "foto_url": "text"
+    },
+    "cobrancas_assinatura": {
+      "id": "uuid",
+      "assinatura_id": "uuid",
+      "valor": "float",
+      "data_cobranca": "date",
+      "forma_pgto": "enum",
+      "status": "text",
+      "gateway_id": "text",
+      "criado_em": "timestamp"
+    },
+    "colaborador_servico_tempo": {
+      "id": "uuid",
+      "colaborador_id": "uuid",
+      "servico_id": "uuid",
+      "duracao_min": "int",
+      "atualizado_em": "timestamp"
+    },
+    "colaborador_servicos": {
+      "colaborador_id": "uuid",
+      "servico_id": "uuid"
+    },
+    "colaboradores": {
+      "id": "uuid",
+      "user_id": "uuid",
+      "nome": "text",
+      "cpf": "text",
+      "email": "text",
+      "whatsapp": "text",
+      "data_nasc": "date",
+      "perfil": "enum",
+      "unidade_id": "uuid",
+      "comissao_pct": "float",
+      "ativo": "boolean",
+      "foto_url": "text",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp",
+      "nivel": "enum",
+      "senha_hash": "text",
+      "saldo_vales_pix": "float",
+      "foto_url_2": "text",
+      "senha_autorizacao": "text",
+      "salario": "float",
+      "mostrar_sobrenome": "boolean",
+      "demitido_em": "timestamp",
+      "is_subgerente": "boolean"
+    },
+    "comandas": {
+      "id": "uuid",
+      "agendamento_id": "uuid",
+      "unidade_id": "uuid",
+      "colaborador_id": "uuid",
+      "cliente_id": "uuid",
+      "status": "enum",
+      "subtotal": "float",
+      "desconto": "float",
+      "total": "float",
+      "forma_pgto": "enum",
+      "observacao": "text",
+      "aberta_em": "timestamp",
+      "finalizada_em": "timestamp",
+      "criado_por": "uuid",
+      "status_pagamento": "text",
+      "pagamentos": "json",
+      "cliente_nome": "text",
+      "pontos_resgatados": "int"
+    },
+    "comissoes_planos": {
+      "id": "uuid",
+      "assinatura_id": "uuid",
+      "colaborador_id": "uuid",
+      "valor_plano": "float",
+      "pct_comissao": "float",
+      "valor_comissao": "float",
+      "mes": "text",
+      "criado_em": "timestamp"
+    },
+    "configuracoes": {
+      "chave": "text",
+      "valor": "text",
+      "descricao": "text",
+      "atualizado_em": "timestamp"
+    },
+    "convenios": {
+      "id": "uuid",
+      "nome_empresa": "text",
+      "cnpj": "text",
+      "desconto_pct": "float",
+      "ativo": "boolean",
+      "criado_em": "timestamp"
+    },
+    "dre_lancamentos": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "mes": "text",
+      "tipo": "text",
+      "categoria": "text",
+      "valor": "float",
+      "ordem": "int",
+      "atualizado_em": "timestamp"
+    },
+    "email_fila": {
+      "id": "uuid",
+      "cliente_id": "uuid",
+      "email": "text",
+      "nome": "text",
+      "segmento": "text",
+      "prioridade": "int",
+      "status": "text",
+      "resend_id": "text",
+      "erro_msg": "text",
+      "enviado_em": "timestamp",
+      "criado_em": "timestamp"
+    },
+    "espera_colaboradores": {
+      "espera_id": "uuid",
+      "colaborador_id": "uuid"
+    },
+    "estoque": {
+      "id": "uuid",
+      "produto_id": "uuid",
+      "unidade_id": "uuid",
+      "quantidade": "int",
+      "atualizado_em": "timestamp"
+    },
+    "fechamentos": {
+      "id": "uuid",
+      "colaborador_id": "uuid",
+      "unidade_id": "uuid",
+      "periodo_ini": "date",
+      "periodo_fim": "date",
+      "servico_total": "float",
+      "servico_pct": "float",
+      "servico_comissao": "float",
+      "produto_total": "float",
+      "produto_pct": "float",
+      "produto_comissao": "float",
+      "comissao_bruta": "float",
+      "vales_adiantamento": "float",
+      "vales_produtos": "float",
+      "total_descontos": "float",
+      "liquido": "float",
+      "detalhe": "json",
+      "emitido_por": "uuid",
+      "criado_em": "timestamp"
+    },
+    "fechamentos_caixa": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "data_fechamento": "date",
+      "responsavel_id": "uuid",
+      "total_dinheiro": "float",
+      "total_debito": "float",
+      "total_credito": "float",
+      "total_pix": "float",
+      "total_sangria": "float",
+      "total_comandas": "int",
+      "faturamento_bruto": "float",
+      "total_comissoes": "float",
+      "observacao": "text",
+      "enviado_email": "boolean",
+      "criado_em": "timestamp"
+    },
+    "feriados": {
+      "id": "uuid",
+      "data": "date",
+      "descricao": "text",
+      "criado_por": "uuid",
+      "criado_em": "timestamp",
+      "fechado": "boolean",
+      "hora_abre": "text",
+      "hora_fecha": "text"
+    },
+    "fichas_plano": {
+      "id": "uuid",
+      "cliente_id": "uuid",
+      "assinatura_id": "uuid",
+      "plano_id": "uuid",
+      "quantidade": "int",
+      "usadas": "int",
+      "gerada_em": "timestamp",
+      "expira_em": "timestamp",
+      "origem": "text",
+      "criado_em": "timestamp"
+    },
+    "folgas": {
+      "id": "uuid",
+      "colaborador_id": "uuid",
+      "unidade_id": "uuid",
+      "data_folga": "date",
+      "periodo": "text",
+      "status": "text",
+      "aprovado_por": "uuid",
+      "obs": "text",
+      "criado_em": "timestamp"
+    },
+    "gatilhos_comissao_produto": {
+      "id": "uuid",
+      "qtd_min": "int",
+      "qtd_max": "int",
+      "comissao_pct": "float",
+      "ativo": "boolean"
+    },
+    "gatilhos_comissao_servico": {
+      "id": "uuid",
+      "faturamento_min": "float",
+      "faturamento_max": "float",
+      "comissao_pct": "float",
+      "ativo": "boolean"
+    },
+    "historico_atendimentos": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "cliente_id": "uuid",
+      "colaborador_id": "uuid",
+      "servico_id": "uuid",
+      "data_hora_ini": "timestamp",
+      "valor": "float",
+      "forma_pgto": "text",
+      "status": "text",
+      "pontos_gerados": "int",
+      "origem": "text",
+      "criado_em": "timestamp"
+    },
+    "historico_pontos": {
+      "id": "uuid",
+      "cliente_id": "uuid",
+      "tipo": "text",
+      "pontos": "int",
+      "descricao": "text",
+      "referencia_id": "uuid",
+      "criado_em": "timestamp"
+    },
+    "horarios_unidade": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "dia_semana": "int",
+      "hora_inicio": "time",
+      "hora_fim": "time",
+      "aberto": "boolean"
+    },
+    "itens_comanda": {
+      "id": "uuid",
+      "comanda_id": "uuid",
+      "tipo": "enum",
+      "servico_id": "uuid",
+      "produto_id": "uuid",
+      "descricao": "text",
+      "quantidade": "int",
+      "valor_unit": "float",
+      "valor_total": "float",
+      "criado_em": "timestamp",
+      "colaborador_id": "uuid",
+      "ficha_bar": "boolean",
+      "valor_tabela": "float"
+    },
+    "itens_vale": {
+      "id": "uuid",
+      "vale_id": "uuid",
+      "descricao": "text",
+      "produto_id": "uuid",
+      "quantidade": "int",
+      "valor_unit": "float",
+      "valor_total": "float"
+    },
+    "knowledge_base": {
+      "id": "uuid",
+      "categoria": "text",
+      "conteudo": "text",
+      "descricao": "text",
+      "ativo": "boolean",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp"
+    },
+    "lista_espera": {
+      "id": "uuid",
+      "cliente_id": "uuid",
+      "unidade_id": "uuid",
+      "servico_id": "uuid",
+      "data_desejada": "date",
+      "hora_ini": "time",
+      "hora_fim": "time",
+      "status": "enum",
+      "observacao": "text",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp"
+    },
+    "log_reaberturas": {
+      "id": "uuid",
+      "comanda_id": "uuid",
+      "gerente_id": "uuid",
+      "motivo": "text",
+      "criado_em": "timestamp"
+    },
+    "metas_colaborador": {
+      "id": "uuid",
+      "colaborador_id": "uuid",
+      "unidade_id": "uuid",
+      "mes": "text",
+      "clientes": "float",
+      "faturamento": "float",
+      "produtos": "float",
+      "planos": "float",
+      "bar": "float",
+      "criado_por": "uuid",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp"
+    },
+    "metas_unidade": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "mes": "text",
+      "clientes": "float",
+      "faturamento": "float",
+      "produtos": "float",
+      "planos": "float",
+      "bar": "float",
+      "criado_por": "uuid",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp"
+    },
+    "movimentacoes_estoque": {
+      "id": "uuid",
+      "produto_id": "uuid",
+      "unidade_id": "uuid",
+      "tipo": "enum",
+      "quantidade": "int",
+      "valor_unitario": "float",
+      "responsavel_id": "uuid",
+      "referencia_id": "uuid",
+      "observacao": "text",
+      "criado_em": "timestamp"
+    },
+    "nivel_tempo_servico": {
+      "nivel": "enum",
+      "duracao_min": "int"
+    },
+    "notificacoes_whatsapp": {
+      "id": "uuid",
+      "destinatario": "text",
+      "mensagem": "text",
+      "tipo": "text",
+      "referencia_id": "uuid",
+      "status": "text",
+      "tentativas": "int",
+      "enviado_em": "timestamp",
+      "criado_em": "timestamp"
+    },
+    "perfis_acesso": {
+      "chave": "text",
+      "nome": "text",
+      "base": "text",
+      "fixo": "boolean",
+      "criado_em": "timestamp"
+    },
+    "permissoes_funcao": {
+      "id": "uuid",
+      "perfil": "text",
+      "funcao": "text",
+      "permitido": "boolean",
+      "atualizado_em": "timestamp"
+    },
+    "permissoes_tela": {
+      "id": "uuid",
+      "perfil": "text",
+      "tela": "text",
+      "permitido": "boolean",
+      "atualizado_em": "timestamp"
+    },
+    "plano_servicos": {
+      "plano_id": "uuid",
+      "servico_id": "uuid",
+      "limite_mes": "int"
+    },
+    "planos": {
+      "id": "uuid",
+      "nome": "text",
+      "descricao": "text",
+      "valor_mensal": "float",
+      "dia_renovacao": "int",
+      "renovacao_automatica": "boolean",
+      "desconto_produtos_pct": "float",
+      "ativo": "boolean",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp",
+      "visitas_semana": "int",
+      "fichas_bar_mes": "int",
+      "beneficiarios": "int"
+    },
+    "produtos": {
+      "id": "uuid",
+      "nome": "text",
+      "categoria_id": "uuid",
+      "barcode": "text",
+      "valor_venda": "float",
+      "valor_consumo": "float",
+      "estoque_minimo": "int",
+      "disponivel_venda": "boolean",
+      "ativo": "boolean",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp",
+      "pontos_resgate": "int",
+      "valor_colaborador": "float"
+    },
+    "push_inscricoes": {
+      "id": "uuid",
+      "cliente_id": "uuid",
+      "endpoint": "text",
+      "p256dh": "text",
+      "auth": "text",
+      "user_agent": "text",
+      "ativo": "boolean",
+      "criado_em": "timestamp",
+      "ultimo_envio": "timestamp",
+      "colaborador_id": "uuid"
+    },
+    "push_lembretes": {
+      "id": "uuid",
+      "agendamento_id": "uuid",
+      "tipo": "text",
+      "enviado_em": "timestamp"
+    },
+    "saidas_caixa": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "motivo": "text",
+      "valor": "float",
+      "descricao": "text",
+      "responsavel_id": "uuid",
+      "autorizado_por": "uuid",
+      "criado_em": "timestamp"
+    },
+    "sangrias": {
+      "id": "uuid",
+      "unidade_id": "uuid",
+      "responsavel_id": "uuid",
+      "valor": "float",
+      "motivo": "text",
+      "criado_em": "timestamp"
+    },
+    "servicos": {
+      "id": "uuid",
+      "nome": "text",
+      "descricao": "text",
+      "duracao_min": "int",
+      "valor": "float",
+      "disponivel_online": "boolean",
+      "todos_colaboradores": "boolean",
+      "ativo": "boolean",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp",
+      "restrito_barbeiro": "boolean"
+    },
+    "unidades": {
+      "id": "uuid",
+      "nome": "text",
+      "endereco": "text",
+      "bairro": "text",
+      "cidade": "text",
+      "uf": "text",
+      "cep": "text",
+      "telefone": "text",
+      "email": "text",
+      "ativa": "boolean",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp"
+    },
+    "uso_plano_mes": {
+      "id": "uuid",
+      "assinatura_id": "uuid",
+      "servico_id": "uuid",
+      "ano_mes": "text",
+      "quantidade_usada": "int"
+    },
+    "vales": {
+      "id": "uuid",
+      "colaborador_id": "uuid",
+      "unidade_id": "uuid",
+      "valor": "float",
+      "itens": "json",
+      "criado_por": "uuid",
+      "retirada_id": "uuid",
+      "status": "text",
+      "criado_em": "timestamp",
+      "fechamento_id": "uuid"
+    },
+    "vales_funcionarios": {
+      "id": "uuid",
+      "colaborador_id": "uuid",
+      "unidade_id": "uuid",
+      "tipo": "enum",
+      "total": "float",
+      "status": "enum",
+      "autorizado_por": "uuid",
+      "autorizado_em": "timestamp",
+      "observacao": "text",
+      "aberto_em": "timestamp"
+    },
+    "vales_pix": {
+      "id": "uuid",
+      "colaborador_id": "uuid",
+      "unidade_id": "uuid",
+      "valor": "float",
+      "descricao": "text",
+      "status": "text",
+      "criado_por": "uuid",
+      "criado_em": "timestamp",
+      "descontado_em": "timestamp",
+      "fechamento_id": "uuid"
+    },
+    "whatsapp_conversas": {
+      "id": "uuid",
+      "cliente_id": "uuid",
+      "numero": "text",
+      "nome_contato": "text",
+      "status": "text",
+      "atendente": "text",
+      "unidade_id": "uuid",
+      "ultima_msg_em": "timestamp",
+      "criado_em": "timestamp",
+      "atualizado_em": "timestamp",
+      "estado_ia": "text",
+      "dados_ia": "json",
+      "agendamento_id": "uuid",
+      "requer_humano": "boolean",
+      "requer_humano_em": "timestamp"
+    },
+    "whatsapp_mensagens": {
+      "id": "uuid",
+      "conversa_id": "uuid",
+      "evolution_msg_id": "text",
+      "direcao": "text",
+      "tipo": "text",
+      "conteudo": "text",
+      "midia_url": "text",
+      "remetente": "text",
+      "lida": "boolean",
+      "criado_em": "timestamp"
+    },
+    "vw_agenda_dia": {
+      "id": "uuid",
+      "data_hora_ini": "timestamp",
+      "data_hora_fim": "timestamp",
+      "status": "enum",
+      "valor": "float",
+      "observacao": "text",
+      "canal_origem": "text",
+      "unidade_nome": "text",
+      "colaborador_nome": "text",
+      "cliente_nome": "text",
+      "cliente_whatsapp": "text",
+      "servico_nome": "text",
+      "duracao_min": "int",
+      "colaborador_id": "uuid",
+      "unidade_id": "uuid",
+      "cliente_id": "uuid"
+    },
+    "vw_financeiro_dia": {
+      "unidade_id": "uuid",
+      "unidade_nome": "text",
+      "data": "date",
+      "total_comandas": "int",
+      "faturamento": "float",
+      "total_dinheiro": "float",
+      "total_debito": "float",
+      "total_credito": "float",
+      "total_pix": "float"
+    },
+    "vw_comissoes_mes": {
+      "colaborador_id": "uuid",
+      "colaborador_nome": "text",
+      "comissao_pct": "float",
+      "unidade_nome": "text",
+      "mes": "text",
+      "total_comandas": "int",
+      "faturado": "float",
+      "comissao": "float"
+    },
+    "vw_estoque_alertas": {
+      "produto_id": "uuid",
+      "produto_nome": "text",
+      "estoque_minimo": "int",
+      "unidade_id": "uuid",
+      "unidade_nome": "text",
+      "quantidade": "int",
+      "critico": "boolean"
+    },
+    "vw_clientes_reativar": {
+      "id": "uuid",
+      "nome": "text",
+      "whatsapp": "text",
+      "ultima_visita": "timestamp",
+      "dias_ausente": "int",
+      "colaborador_preferido": "text",
+      "colaborador_id": "uuid"
+    }
+  },
+  "fks": {
+    "agenda_appbarber": {
+      "unidade_id": "unidades",
+      "cliente_id": "clientes",
+      "colaborador_id": "colaboradores",
+      "servico_id": "servicos",
+      "agendamento_id": "agendamentos",
+      "comanda_id": "comandas"
+    },
+    "agenda_appbarber_produtos": {
+      "unidade_id": "unidades",
+      "colaborador_id": "colaboradores"
+    },
+    "agendamentos": {
+      "unidade_id": "unidades",
+      "colaborador_id": "colaboradores",
+      "cliente_id": "clientes",
+      "servico_id": "servicos",
+      "criado_por": "colaboradores",
+      "comanda_id": "comandas"
+    },
+    "appbarber_depara_profissional": {
+      "unidade_id": "unidades",
+      "colaborador_id": "colaboradores"
+    },
+    "appbarber_depara_servico": {
+      "unidade_id": "unidades",
+      "servico_id": "servicos"
+    },
+    "appbarber_sessoes": {
+      "unidade_id": "unidades"
+    },
+    "assinaturas": {
+      "cliente_id": "clientes",
+      "plano_id": "planos",
+      "vendedor_id": "colaboradores",
+      "vendedor_id_2": "colaboradores"
+    },
+    "balanco_itens": {
+      "balanco_id": "balancos",
+      "produto_id": "produtos",
+      "resolvido_por": "colaboradores"
+    },
+    "balancos": {
+      "unidade_id": "unidades",
+      "criado_por": "colaboradores"
+    },
+    "bloqueios": {
+      "colaborador_id": "colaboradores",
+      "unidade_id": "unidades",
+      "criado_por": "colaboradores"
+    },
+    "bloqueios_recorrentes": {
+      "colaborador_id": "colaboradores",
+      "unidade_id": "unidades",
+      "criado_por": "colaboradores"
+    },
+    "caixa_retiradas": {
+      "sessao_id": "caixa_sessoes",
+      "unidade_id": "unidades",
+      "responsavel_id": "colaboradores",
+      "autorizado_por": "colaboradores"
+    },
+    "caixa_sessoes": {
+      "unidade_id": "unidades",
+      "aberto_por": "colaboradores",
+      "fechado_por": "colaboradores"
+    },
+    "carteira_pontos": {
+      "cliente_id": "clientes"
+    },
+    "categorias_produto": {},
+    "cliente_dedup_map": {
+      "dup_id": "clientes",
+      "manter_id": "clientes"
+    },
+    "cliente_servicos_pref": {
+      "cliente_id": "clientes",
+      "servico_id": "servicos"
+    },
+    "clientes": {
+      "colaborador_pref": "colaboradores",
+      "unidade_pref": "unidades",
+      "convenio_id": "convenios"
+    },
+    "cobrancas_assinatura": {
+      "assinatura_id": "assinaturas"
+    },
+    "colaborador_servico_tempo": {
+      "colaborador_id": "colaboradores",
+      "servico_id": "servicos"
+    },
+    "colaborador_servicos": {
+      "colaborador_id": "colaboradores",
+      "servico_id": "servicos"
+    },
+    "colaboradores": {
+      "unidade_id": "unidades"
+    },
+    "comandas": {
+      "agendamento_id": "agendamentos",
+      "unidade_id": "unidades",
+      "colaborador_id": "colaboradores",
+      "cliente_id": "clientes",
+      "criado_por": "colaboradores"
+    },
+    "comissoes_planos": {
+      "assinatura_id": "assinaturas",
+      "colaborador_id": "colaboradores"
+    },
+    "configuracoes": {},
+    "convenios": {},
+    "dre_lancamentos": {
+      "unidade_id": "unidades"
+    },
+    "email_fila": {
+      "cliente_id": "clientes"
+    },
+    "espera_colaboradores": {
+      "espera_id": "lista_espera",
+      "colaborador_id": "colaboradores"
+    },
+    "estoque": {
+      "produto_id": "produtos",
+      "unidade_id": "unidades"
+    },
+    "fechamentos": {
+      "colaborador_id": "colaboradores",
+      "unidade_id": "unidades",
+      "emitido_por": "colaboradores"
+    },
+    "fechamentos_caixa": {
+      "unidade_id": "unidades",
+      "responsavel_id": "colaboradores"
+    },
+    "feriados": {
+      "criado_por": "colaboradores"
+    },
+    "fichas_plano": {
+      "cliente_id": "clientes",
+      "assinatura_id": "assinaturas",
+      "plano_id": "planos"
+    },
+    "folgas": {
+      "colaborador_id": "colaboradores",
+      "unidade_id": "unidades",
+      "aprovado_por": "colaboradores"
+    },
+    "gatilhos_comissao_produto": {},
+    "gatilhos_comissao_servico": {},
+    "historico_atendimentos": {
+      "unidade_id": "unidades",
+      "cliente_id": "clientes",
+      "colaborador_id": "colaboradores",
+      "servico_id": "servicos"
+    },
+    "historico_pontos": {
+      "cliente_id": "clientes"
+    },
+    "horarios_unidade": {
+      "unidade_id": "unidades"
+    },
+    "itens_comanda": {
+      "comanda_id": "comandas",
+      "servico_id": "servicos",
+      "produto_id": "produtos",
+      "colaborador_id": "colaboradores"
+    },
+    "itens_vale": {
+      "vale_id": "vales_funcionarios",
+      "produto_id": "produtos"
+    },
+    "knowledge_base": {},
+    "lista_espera": {
+      "cliente_id": "clientes",
+      "unidade_id": "unidades",
+      "servico_id": "servicos"
+    },
+    "log_reaberturas": {
+      "comanda_id": "comandas",
+      "gerente_id": "colaboradores"
+    },
+    "metas_colaborador": {
+      "colaborador_id": "colaboradores",
+      "unidade_id": "unidades",
+      "criado_por": "colaboradores"
+    },
+    "metas_unidade": {
+      "unidade_id": "unidades",
+      "criado_por": "colaboradores"
+    },
+    "movimentacoes_estoque": {
+      "produto_id": "produtos",
+      "unidade_id": "unidades",
+      "responsavel_id": "colaboradores"
+    },
+    "nivel_tempo_servico": {},
+    "notificacoes_whatsapp": {},
+    "perfis_acesso": {},
+    "permissoes_funcao": {},
+    "permissoes_tela": {},
+    "plano_servicos": {
+      "plano_id": "planos",
+      "servico_id": "servicos"
+    },
+    "planos": {},
+    "produtos": {
+      "categoria_id": "categorias_produto"
+    },
+    "push_inscricoes": {
+      "cliente_id": "clientes",
+      "colaborador_id": "colaboradores"
+    },
+    "push_lembretes": {
+      "agendamento_id": "agendamentos"
+    },
+    "saidas_caixa": {
+      "unidade_id": "unidades",
+      "responsavel_id": "colaboradores",
+      "autorizado_por": "colaboradores"
+    },
+    "sangrias": {
+      "unidade_id": "unidades",
+      "responsavel_id": "colaboradores"
+    },
+    "servicos": {},
+    "unidades": {},
+    "uso_plano_mes": {
+      "assinatura_id": "assinaturas",
+      "servico_id": "servicos"
+    },
+    "vales": {
+      "colaborador_id": "colaboradores",
+      "unidade_id": "unidades",
+      "criado_por": "colaboradores",
+      "retirada_id": "caixa_retiradas",
+      "fechamento_id": "fechamentos"
+    },
+    "vales_funcionarios": {
+      "colaborador_id": "colaboradores",
+      "unidade_id": "unidades",
+      "autorizado_por": "colaboradores"
+    },
+    "vales_pix": {
+      "colaborador_id": "colaboradores",
+      "unidade_id": "unidades",
+      "criado_por": "colaboradores",
+      "fechamento_id": "fechamentos"
+    },
+    "whatsapp_conversas": {
+      "cliente_id": "clientes",
+      "unidade_id": "unidades",
+      "agendamento_id": "agendamentos"
+    },
+    "whatsapp_mensagens": {
+      "conversa_id": "whatsapp_conversas"
+    }
+  },
+  "tabelas": [
+    "agenda_appbarber",
+    "agenda_appbarber_produtos",
+    "agendamentos",
+    "appbarber_depara_profissional",
+    "appbarber_depara_servico",
+    "appbarber_sessoes",
+    "assinaturas",
+    "balanco_itens",
+    "balancos",
+    "bloqueios",
+    "bloqueios_recorrentes",
+    "caixa_retiradas",
+    "caixa_sessoes",
+    "carteira_pontos",
+    "categorias_produto",
+    "cliente_dedup_map",
+    "cliente_servicos_pref",
+    "clientes",
+    "cobrancas_assinatura",
+    "colaborador_servico_tempo",
+    "colaborador_servicos",
+    "colaboradores",
+    "comandas",
+    "comissoes_planos",
+    "configuracoes",
+    "convenios",
+    "dre_lancamentos",
+    "email_fila",
+    "espera_colaboradores",
+    "estoque",
+    "fechamentos",
+    "fechamentos_caixa",
+    "feriados",
+    "fichas_plano",
+    "folgas",
+    "gatilhos_comissao_produto",
+    "gatilhos_comissao_servico",
+    "historico_atendimentos",
+    "historico_pontos",
+    "horarios_unidade",
+    "itens_comanda",
+    "itens_vale",
+    "knowledge_base",
+    "lista_espera",
+    "log_reaberturas",
+    "metas_colaborador",
+    "metas_unidade",
+    "movimentacoes_estoque",
+    "nivel_tempo_servico",
+    "notificacoes_whatsapp",
+    "perfis_acesso",
+    "permissoes_funcao",
+    "permissoes_tela",
+    "plano_servicos",
+    "planos",
+    "produtos",
+    "push_inscricoes",
+    "push_lembretes",
+    "saidas_caixa",
+    "sangrias",
+    "servicos",
+    "unidades",
+    "uso_plano_mes",
+    "vales",
+    "vales_funcionarios",
+    "vales_pix",
+    "whatsapp_conversas",
+    "whatsapp_mensagens"
+  ]
+}

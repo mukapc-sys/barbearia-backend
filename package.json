@@ -1,0 +1,32 @@
+{
+  "name": "barbearia-backend",
+  "version": "1.0.0",
+  "description": "API de gestão para barbearias — multi-cliente por variáveis de ambiente",
+  "main": "src/worker.js",
+  "scripts": {
+    "start": "node src/local.js",
+    "dev": "wrangler dev",
+    "dev:node": "nodemon src/local.js",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 execute $npm_config_db --local --file=banco-d1/01-schema.sql",
+    "db:remoto": "wrangler d1 execute $npm_config_db --remote --file=banco-d1/01-schema.sql",
+    "teste": "node ../../testes/d1.test.js && node ../../testes/auth.test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "node-cron": "^3.0.3",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3",
+    "wrangler": "^4.122.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

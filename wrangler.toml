@@ -1,0 +1,70 @@
+# ============================================================================
+# Cloudflare Workers — backend da barbearia
+#
+# Um arquivo por cliente? Não: o MESMO código serve todos. O que muda é o
+# banco (database_id) e as variáveis. Duplique só o bloco [env.<cliente>].
+#
+#   npx wrangler d1 create barbearia-<cliente>
+#   npx wrangler d1 execute barbearia-<cliente> --remote --file=banco-d1/01-schema.sql
+#   npx wrangler deploy --env <cliente>
+# ============================================================================
+
+name = "barbearia-backend"
+main = "src/worker.js"
+compatibility_date = "2026-08-01"
+compatibility_flags = ["nodejs_compat", "enable_nodejs_http_server_modules"]
+
+# Tarefas agendadas — os mesmos horários que eram node-cron.
+# O worker.js despacha cada expressão para a função certa em src/jobs.js.
+# O iconv-lite (via Express → body-parser) não carrega no workerd.
+# A API é UTF-8 pura, então trocamos por um stub.
+[alias]
+"iconv-lite" = "./src/shims/iconv-lite.js"
+
+[triggers]
+crons = ["0 11 * * *", "0 6 * * *", "*/5 * * * *"]
+# 11:00 UTC = 08:00 em Brasília (lembretes do dia seguinte)
+#  6:00 UTC = 03:00 em Brasília (expiração de pontos)
+#  a cada 5 min: lembretes por push
+
+# ---------------------------------------------------------------------------
+# Instância-mestre
+# ---------------------------------------------------------------------------
+[[d1_databases]]
+binding = "DB"
+database_name = "barbearia-mestre"
+database_id = "local-dev-placeholder"
+
+[vars]
+APP_NOME = "Barbearia Vértice"
+APP_NOME_CURTO = "Vértice"
+APP_CIDADE = "Canoas"
+APP_UF = "RS"
+APP_SITE = "barbeariavertice.com.br"
+APP_PREFIXO = "appvertice"
+NODE_ENV = "production"
+TZ_APP = "America/Sao_Paulo"
+
+# Segredos NÃO vão aqui. Use:
+#   npx wrangler secret put JWT_SECRET
+#   npx wrangler secret put WEBHOOK_TOKEN
+#   npx wrangler secret put VAPID_PUBLIC
+#   npx wrangler secret put VAPID_PRIVATE
+#   npx wrangler secret put GEMINI_API_KEY
+#   npx wrangler secret put EVOLUTION_API_KEY
+
+# ---------------------------------------------------------------------------
+# Cliente novo: copie este bloco, troque o nome e o database_id
+# ---------------------------------------------------------------------------
+# [env.alfa]
+# name = "barbearia-alfa"
+# [[env.alfa.d1_databases]]
+# binding = "DB"
+# database_name = "barbearia-alfa"
+# database_id = "..."
+# [env.alfa.vars]
+# APP_NOME = "Barbearia Alfa"
+# APP_CIDADE = "Canoas"
+# APP_UF = "RS"
+# APP_SITE = "barbeariaalfa.com.br"
+# APP_PREFIXO = "appalfa"
