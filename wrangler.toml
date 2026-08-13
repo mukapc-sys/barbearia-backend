@@ -29,11 +29,23 @@ crons = ["0 11 * * *", "0 6 * * *", "*/5 * * * *"]
 
 # ---------------------------------------------------------------------------
 # Instância-mestre
+#
+# ⚠️  ANTES DE SUBIR PARA O GITHUB, troque o database_id abaixo pelo ID de
+#     verdade do seu banco. Onde achar: dash.cloudflare.com → Storage &
+#     Databases → D1 SQL Database → clique em `barbearia-mestre` → copie o
+#     campo "Database ID" (é um código com traços, tipo
+#     a1b2c3d4-5e6f-7890-abcd-ef1234567890).
+#
+#     Sem isso o deploy para com:
+#       binding DB of type d1 must have a valid `database_id` specified [10021]
+#
+#     O binding do banco vem DAQUI, não do painel: o `wrangler deploy` usa este
+#     arquivo como verdade e sobrescreve o que estiver configurado na tela.
 # ---------------------------------------------------------------------------
 [[d1_databases]]
 binding = "DB"
 database_name = "barbearia-mestre"
-database_id = "local-dev-placeholder"
+database_id = "9bf79a83-7ce1-46fd-87fc-2e7037caf4f5"
 
 [vars]
 APP_NOME = "Barbearia Vértice"
