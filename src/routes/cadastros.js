@@ -66,6 +66,67 @@ router.put('/unidades/:id', autenticar, exigirPerfil('proprietario', 'gerente'),
     return res.status(500).json({ erro: 'Erro ao atualizar unidade' })
   }
 })
+
+// DELETE /unidades/:id — EXCLUI a unidade e TUDO que depende dela, na ordem
+// certa (filho→pai). Roda no servidor: só apaga tabelas que EXISTEM e sem violar
+// FK. Clientes ficam; barbeiro/unidade preferida e vendedor viram NULL sozinhos.
+router.delete('/unidades/:id', autenticar, exigirPerfil('proprietario'), async (req, res) => {
+  try {
+    const { executarSql } = require('../config/d1')
+    const id = String(req.params.id)
+    const U = "'" + id.replace(/'/g, "''") + "'"
+    const { data: uni } = await supabaseAdmin.from('unidades').select('id').eq('id', id).maybeSingle()
+    if (!uni) return res.status(404).json({ erro: 'Unidade não encontrada' })
+    const { data: todas } = await supabaseAdmin.from('unidades').select('id')
+    if ((todas || []).length <= 1) return res.status(400).json({ erro: 'Não dá para excluir a única unidade. Crie outra antes.' })
+    const { data: tbls } = await supabaseAdmin.from('sqlite_master').select('name').eq('type', 'table')
+    const existe = new Set((tbls || []).map(t => t.name))
+    const porUnidade  = t => `DELETE FROM ${t} WHERE unidade_id = ${U}`
+    const porComanda  = t => `DELETE FROM ${t} WHERE comanda_id IN (SELECT id FROM comandas WHERE unidade_id = ${U})`
+    const porAgenda   = t => `DELETE FROM ${t} WHERE agendamento_id IN (SELECT id FROM agendamentos WHERE unidade_id = ${U})`
+    const porConversa = t => `DELETE FROM ${t} WHERE conversa_id IN (SELECT id FROM whatsapp_conversas WHERE unidade_id = ${U})`
+    const porBalanco  = t => `DELETE FROM ${t} WHERE balanco_id IN (SELECT id FROM balancos WHERE unidade_id = ${U})`
+    const porVale     = t => `DELETE FROM ${t} WHERE vale_id IN (SELECT id FROM vales_funcionarios WHERE unidade_id = ${U})`
+    const porColab    = t => `DELETE FROM ${t} WHERE colaborador_id IN (SELECT id FROM colaboradores WHERE unidade_id = ${U})`
+    const PLANO = [
+      ['itens_vale', porVale, ['vales_funcionarios']],
+      ['balanco_itens', porBalanco, ['balancos']],
+      ['whatsapp_mensagens', porConversa, ['whatsapp_conversas']],
+      ['push_lembretes', porAgenda, ['agendamentos']],
+      ['itens_comanda', porComanda, ['comandas']],
+      ['vales', porUnidade, []], ['vales_pix', porUnidade, []],
+      ['espera_colaboradores', porColab, []],
+      ['agenda_appbarber', porUnidade, []], ['agenda_appbarber_produtos', porUnidade, []],
+      ['comandas', porUnidade, []], ['agendamentos', porUnidade, []],
+      ['whatsapp_conversas', porUnidade, []],
+      ['movimentacoes_estoque', porUnidade, []], ['estoque', porUnidade, []],
+      ['metas_colaborador', porUnidade, []], ['metas_unidade', porUnidade, []],
+      ['bloqueios', porUnidade, []], ['bloqueios_recorrentes', porUnidade, []],
+      ['folgas', porUnidade, []], ['lista_espera', porUnidade, []],
+      ['caixa_retiradas', porUnidade, []], ['caixa_sessoes', porUnidade, []],
+      ['fechamentos', porUnidade, []], ['fechamentos_caixa', porUnidade, []],
+      ['saidas_caixa', porUnidade, []], ['sangrias', porUnidade, []],
+      ['vales_funcionarios', porUnidade, []], ['balancos', porUnidade, []],
+      ['dre_lancamentos', porUnidade, []], ['historico_atendimentos', porUnidade, []],
+      ['appbarber_sessoes', porUnidade, []], ['appbarber_depara_profissional', porUnidade, []],
+      ['appbarber_depara_servico', porUnidade, []], ['horarios_unidade', porUnidade, []],
+      ['colaborador_servicos', porColab, []], ['colaborador_servico_tempo', porColab, []],
+      ['comissoes_planos', porColab, []], ['push_inscricoes', porColab, []],
+      ['colaboradores', porUnidade, []]
+    ]
+    await executarSql('PRAGMA defer_foreign_keys = true').catch(() => {})
+    for (const [t, gen, dep] of PLANO) {
+      if (!existe.has(t)) continue
+      if (dep.some(d => !existe.has(d))) continue
+      await executarSql(gen(t))
+    }
+    await executarSql(`DELETE FROM unidades WHERE id = ${U}`)
+    return res.json({ ok: true, excluida: id })
+  } catch (err) {
+    console.error('[excluir unidade]', err && err.message)
+    return res.status(500).json({ erro: 'Erro ao excluir unidade: ' + (err && err.message || 'desconhecido') })
+  }
+})
 // ============ COLABORADORES ============
 // Nome de exibição do barbeiro: sobrenome só quando o toggle 'mostrar_sobrenome'
 // está ligado no cadastro. Padrão = só o primeiro nome. Fonte única desta regra.
