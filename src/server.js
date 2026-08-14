@@ -117,6 +117,7 @@ app.put('/config/:chave', autenticar, exigirPerfil('proprietario'), async (req, 
 app.get('/config', autenticar, async (_req, res) => {
   res.json(await REGRAS.carregar())
 })
+app.use('/',             require('./routes/demo'))
 app.use('/',             require('./routes/cadastros'))
 app.use('/',             require('./routes/novos'))
 app.use('/',             require('./routes/dashboard'))

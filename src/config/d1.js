@@ -335,6 +335,13 @@ class Consulta {
     return this
   }
   insert (linhas) { this.acao = 'insert'; this.linhas = Array.isArray(linhas) ? linhas : [linhas]; return this }
+  /**
+   * Desliga as regras que a camada aplica por linha (hoje: o saldo de estoque).
+   * Serve para SEMEAR um estado inicial — a demonstração escreve o saldo direto
+   * em vez de simular centenas de movimentações, o que economiza consultas num
+   * ambiente que as conta (D1). Não use em fluxo de venda.
+   */
+  semGatilho () { this._semGatilho = true; return this }
   update (patch) { this.acao = 'update'; this.patch = patch; return this }
   upsert (linhas, opts) {
     this.acao = 'upsert'
@@ -359,6 +366,40 @@ class Consulta {
 
     if (this.acao === 'insert' || this.acao === 'upsert') {
       const saida = []
+
+      // Lote: linhas com as MESMAS colunas cabem num INSERT só, com vários
+      // VALUES. Importa porque o D1 conta consultas por invocação (50 no plano
+      // grátis) — semear a demonstração linha a linha estourava o limite.
+      // Fica de fora quem precisa de tratamento por linha: upsert e estoque.
+      if (this.acao === 'insert' && this.linhas.length > 1 &&
+          (this._semGatilho || this.tabela !== 'movimentacoes_estoque')) {
+        const assinatura = l => Object.keys(l).filter(k => l[k] !== undefined).sort().join('')
+        const grupos = new Map()
+        for (const l of this.linhas) {
+          const k = assinatura(l)
+          if (!grupos.has(k)) grupos.set(k, [])
+          grupos.get(k).push(l)
+        }
+        for (const linhas of grupos.values()) {
+          const cols = Object.keys(linhas[0]).filter(k => linhas[0][k] !== undefined)
+          const tupla = `(${cols.map(() => '?').join(',')})`
+          // O D1 aceita no MÁXIMO 100 parâmetros por consulta. Um lote fixo de
+          // 50 linhas estourava isso em qualquer tabela com mais de 2 colunas —
+          // e o erro voltava dentro de `{error}`, que ninguém lia. Agora o
+          // tamanho do lote sai da contagem de colunas.
+          const LOTE = Math.max(1, Math.floor(100 / cols.length))
+          for (let i = 0; i < linhas.length; i += LOTE) {
+            const fatia = linhas.slice(i, i + LOTE)
+            const args = fatia.flatMap(l => cols.map(c => paraSql(this.tabela, c, l[c])))
+            const sql = `INSERT INTO "${this.tabela}" (${cols.map(c => `"${c}"`).join(',')}) ` +
+              `VALUES ${fatia.map(() => tupla).join(',')} RETURNING *`
+            const r = await d.all(sql, args)
+            saida.push(...(r.results || []))
+          }
+        }
+        return this._comRelacoes(saida.map(l => this._converterLinha(l)))
+      }
+
       for (const bruta of this.linhas) {
         // no upsert o caminho "já existe" é um UPDATE: precisa carimbar a data
         const linha = this.acao === 'upsert' ? marcarAtualizado(this.tabela, bruta) : bruta
@@ -373,7 +414,7 @@ class Consulta {
         sql += ' RETURNING *'
         const r = await d.all(sql, args)
         saida.push(...(r.results || []))
-        if (this.tabela === 'movimentacoes_estoque') {
+        if (this.tabela === 'movimentacoes_estoque' && !this._semGatilho) {
           const gravada = (r.results && r.results[0]) || linha
           await aplicarMovimentacaoEstoque(d, gravada)
         }
@@ -673,7 +714,31 @@ function criarCliente () {
 const supabase = criarCliente()
 const supabaseAdmin = criarCliente()
 
+/**
+ * Roda um comando SQL cru, SEM parâmetros. Existe por um motivo só: semear.
+ * O D1 aceita no máximo 100 parâmetros por consulta, então inserir centenas de
+ * linhas com `?` vira dezenas de consultas — e o D1 também conta consultas por
+ * invocação. Com os valores escritos direto no SQL, o mesmo lote cabe em uma.
+ *
+ * ⚠️  NUNCA passe dado vindo do usuário por aqui. Use só com SQL que o próprio
+ *     sistema montou (veja src/demo.js), e sempre com paraLiteral() nos valores.
+ */
+async function executarSql (sql) {
+  const d = db()
+  // O binding do D1 responde a all() em qualquer comando; o better-sqlite3 dos
+  // testes exige run() quando não há linhas para devolver.
+  return typeof d.run === 'function' ? d.run(sql, []) : d.all(sql, [])
+}
+
+/** Um valor pronto para entrar direto no SQL, com aspas escapadas. */
+function paraLiteral (tabela, coluna, v) {
+  const x = paraSql(tabela, coluna, v)
+  if (x === null || x === undefined) return 'NULL'
+  if (typeof x === 'number') return Number.isFinite(x) ? String(x) : 'NULL'
+  return "'" + String(x).replace(/'/g, "''") + "'"
+}
+
 module.exports = {
   supabase, supabaseAdmin, setDb, RPCS, parseSelect, resolverRelacao, paraSql, doSql,
-  marcarAtualizado, aplicarMovimentacaoEstoque
+  marcarAtualizado, aplicarMovimentacaoEstoque, executarSql, paraLiteral
 }

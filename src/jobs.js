@@ -98,8 +98,27 @@ async function lembretesPush () {
   }
 }
 
-module.exports = { lembretesDoDiaSeguinte, expirarPontos, lembretesPush, CRONS: {
-  '0 8 * * *': lembretesDoDiaSeguinte,
-  '0 3 * * *': expirarPontos,
-  '*/5 * * * *': lembretesPush,
+// A demonstração NÃO se zera sozinha — decisão do Samuel: o que o prospecto
+// mexe fica salvo, e ver a movimentação de um prospecto no front do outro
+// mostra que o app está vivo. O reinício continua existindo, mas só na mão:
+// pelo botão em Configurações, pelo endpoint POST /demo/reiniciar, ou por SQL.
+// Por isso reiniciarDemonstracao() NÃO está no mapa de crons abaixo.
+async function reiniciarDemonstracao () {
+  const demo = require('./demo')
+  const st = await demo.estado()
+  if (!st.ligada) return
+  const r = await demo.reiniciar()
+  console.log('[demo] reiniciada em', r.ms + 'ms', JSON.stringify(r.criado))
+  return r
+}
+
+// ⚠️  As CHAVES têm de ser IGUAIS às expressões do wrangler.toml: o worker faz
+//     CRONS[event.cron], comparação exata. Estavam nos horários locais antigos
+//     do node-cron ('0 8', '0 3') enquanto o wrangler dispara em UTC ('0 11',
+//     '0 6') — ou seja, dois dos três crons nunca achavam tarefa. Cron Triggers
+//     são SEMPRE UTC; o horário de Brasília vai no comentário.
+module.exports = { lembretesDoDiaSeguinte, expirarPontos, lembretesPush, reiniciarDemonstracao, CRONS: {
+  '0 11 * * *': lembretesDoDiaSeguinte,   // 08:00 em Brasília
+  '0 6 * * *': expirarPontos,             // 03:00 em Brasília
+  '*/5 * * * *': lembretesPush
 } }

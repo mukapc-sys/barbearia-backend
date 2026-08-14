@@ -51,9 +51,12 @@ export default {
   // wrangler.toml; aqui só decidimos qual tarefa roda em qual.
   async scheduled (event, env, ctx) {
     prepararAmbiente(env)
+    // A comparação é exata: chave do CRONS === expressão do wrangler.toml.
+    // Quando não bate, imprime as duas listas — foi assim que apareceu que os
+    // horários estavam em fuso diferente e dois crons nunca rodavam.
     const tarefa = CRONS[event.cron]
     if (!tarefa) {
-      console.warn('[cron] sem tarefa para', event.cron)
+      console.warn('[cron] sem tarefa para "' + event.cron + '". Conhecidas:', Object.keys(CRONS).join(' | '))
       return
     }
     ctx.waitUntil(
